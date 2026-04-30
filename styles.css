@@ -76,27 +76,45 @@ input:focus, textarea:focus {
     font-weight: bold;
     cursor: crosshair;
     width: 100%;
-    max-width: 450px;
+    max-width: 430px;
     transition: transform 0.1s;
 }
 
 /* Phase 2 */
 .button-ghost {
     position: fixed;
-    background: #3b82f6;
-    color: white;
+    background: #570505;
+    color: #570505;
     padding: 14px 24px;
     border: none;
     border-radius: 6px;
-    font-size: small;
+    font-size: medium;
     font-weight: bold;
     pointer-events: none;
     z-index: 5;
     opacity: 0.5;
-    max-width: 450px;
-    animation: fadeOut 0.5s forwards;
+    width: 100%;
+    max-width: 430px;
+    animation: fadeOut 0.7s forwards;
 }
 
 .trash-talk {
-    
+    position: fixed;
+    color: #c44b4b;
+    font-weight: bold;
+    font-size: medium;
+    pointer-events: none;
+    width: 100%;
+    max-width: 430px;
+    z-index: 4;
+    animation: floatUp 2.5s forwards;
+}
+
+@keyframes fadeOut {
+    100% {opacity: 0; transform: translateY(0);}
+}
+
+@keyframes floatUp {
+    0% {opacity: 1; transform: translateY(0);}
+    100% {opacity: 0; transform: translateY(-30px);}
 }
