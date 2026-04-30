@@ -77,7 +77,7 @@ input:focus, textarea:focus {
     cursor: crosshair;
     width: 100%;
     max-width: 430px;
-    transition: transform 0.1s;
+    transition: transform 0.1s ease-out;
 }
 
 /* Phase 2 */
@@ -106,7 +106,7 @@ input:focus, textarea:focus {
     pointer-events: none;
     width: 100%;
     max-width: 430px;
-    z-index: 4;
+    z-index: 999;
     animation: floatUp 2.5s forwards;
 }
 
