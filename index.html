@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subm_It</title>
+    <link rel = "stylesheet" href="./styles.css">
+</head>
+<body>
+    <main class="game-wrapper">
+        <div class="form-container">
+            <h2>Submit The Report</h2>
+            <p>Please fill out the details below. It should only take a second.</p>
+
+            <form id="t-form">
+                <div class="input-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your name">
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                </div>
+
+                <div class="input-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required placeholder="Enter your message here...."></textarea>
+                </div>
+
+                <button type="submit" id="evil-submit" class="phase-1-btn">Submit</button>
+            </form>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
