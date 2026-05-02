@@ -15,6 +15,7 @@ let messageIndex = 0;
 let ironicindex = 0;
 let currScale = 1;
 let totalbuttons = 1;
+let bossHealth = 100;
 
 const trashTalk = ["Tooo slooow....", "Missed mee", "R u even Trying!!!", "Oh You are tryinnng...","Flashesssss...", "This is just Sad.!" ,"uR Dpi is too Low", "I am Speeeeeedddd", "Good Cardio", "HmmmmmMmmmm", "これを翻訳しようとしているのですか!!!", "*Yawns* in Speed", "You are Clearly freeeeee", "Zoooooppp", ]
 const ironicTalk = ["Cmon you can do it (Nope)", "Oh You just missed me.. by a Mile!","Almost had it!", "I believe in you (kinda)", "Are you even trying?","Focus!!!!", "Just click it Man, it's easy", "ALL You have to do is click" , "The Damn Button" , "So close, yet so far", "Maybe use two hands?", "Take a deep breast", "Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha","Ha",]
@@ -30,6 +31,13 @@ function runAway (e) {
             currPhase = 2;
             document.querySelectorAll('.evil-btn').forEach(btn => btn.style.backgroundColor ='#c51e48');
             console.log("Entering Phase 2: The Mock");
+
+            setInterval(() => {
+                const nameInput = document.getElementById('name');
+                if(nameInput && nameInput.value.length > 0) {
+                    nameInput.value = scrambleText(nameInput.value)
+                }
+            }, 200)
         }, 10000)
 
         setTimeout(() => {
@@ -37,6 +45,8 @@ function runAway (e) {
             document.querySelectorAll('.evil-btn').forEach(btn => {btn.style.backgroundColor ='#5da74b'; btn.classList.add('shaking')});
             console.log("Entering Phase 3: The Irony");
 
+            document.body.classList.add('disco-mode');
+            document.getElementById('boss-health-container').style.display = 'block';
             setInterval(createClone ,2000)
         }, 25000)
     }
@@ -59,8 +69,15 @@ function runAway (e) {
 
     if(currPhase === 3) {
         currScale -= 0.02;
-        if(currScale < 0.85) currScale = 0.85;
+        if(currScale < 0.75) currScale = 0.75;
         targetBtn.style.transform = `scale(${currScale})`
+
+        bossHealth -= 2;
+
+        if(bossHealth <= 5) {bossHealth = 100};
+
+        document.getElementById('boss-health-bar').style.width = `${bossHealth}%`;
+        document.getElementById('health-percentage').textContent = `${bossHealth}%`;
     }
 
     //Teleport Logic
@@ -84,13 +101,17 @@ function runAway (e) {
 
     targetBtn.style.left = `${randomX}px`;
     targetBtn.style.top = `${randomY}px`;
+
+    if(currPhase === 3) {
+        targetBtn.style.backgroundColor = getRandomColor();
+    }
 }
 
 function createClone() {
-    if(totalbuttons >= 10) return;
+    if(totalbuttons >= 20) return;
     //Create the Base Clone
     const clone = evilButton.cloneNode(true);
-    clone.style.backgroundColor = '#5da74b';
+    clone.style.backgroundColor = getRandomColor();
     clone.style.transform = `scale(${currScale})`;
     clone.style.position = 'fixed';
     clone.setAttribute('form', 't-form');
@@ -152,7 +173,7 @@ function phaseChange(x, y) {
         if(messageIndex >= trashTalk.length) messageIndex = 0;
     } else if (currPhase === 3) {
         talk.textContent = ironicTalk[ironicindex];
-        talk.style.color = "#98c593";
+        talk.style.color = getRandomColor();
         ironicindex++
         if(ironicindex >= ironicTalk.length) ironicindex = 0;
     }
@@ -169,6 +190,20 @@ function phaseChange(x, y) {
     }, 3000)
 }
 
+//Helpers
+function getRandomColor() {
+    const letters = '0123456788ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+function scrambleText(text) {
+    return text.split('').sort(() => 0.5 - Math.random()).join('');
+}
+
 // THE ENDINGS 
 const contactform = document.getElementById('t-form');
 
@@ -177,22 +212,14 @@ contactform.addEventListener('submit', function (event) {
 
     bgm.pause()
 
-    const isSmallWindow = window.innerWidth <= 850 || window.innerHeight <= 700;
-    
+    document.getElementById('boss-health-container').style.display = 'none';
     //Victory Screen 
     const winScreen = document.getElementById('win-screen');
     const winMessage = document.getElementById('win-message');
 
-    if (isSmallWindow) {
-        winMessage.textContent = "FINALLY!";
-        winMessage.style.color = "#5da74b"; 
-        winMessage.style.textShadow = "2px 2px 15px rgba(93, 167, 75, 0.5)";
-    } else {
-        //Ending (Tab + Enter)
-        winMessage.textContent = "You Cheeky Bastard...";
-        winMessage.style.color = "#bb86fc"; 
-        winMessage.style.textShadow = "2px 2px 15px rgba(187, 134, 252, 0.5)";
-    }
+    //Ending (Tab + Enter)
+    winMessage.textContent = "Thank you for Contacting us.";
+    winMessage.style.color = "#e0e0e0"; 
 
     winScreen.style.display = "flex";
 });
